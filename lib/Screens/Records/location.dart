@@ -7,15 +7,17 @@ import 'package:internship2/models/User_Tile/place_tile.dart';
 import 'package:internship2/Screens/Menu.dart';
 import 'package:internship2/Screens/Collection/collection2.dart';
 import 'package:internship2/models/User_Tile/collection_tile.dart';
-import 'package:internship2/models/User_Tile/mature_tile.dart';
+import 'package:internship2/models/User_Tile/record_tile.dart';
 
-class mature_screen extends StatefulWidget {
-  static const id = '/mature_master1';
+import '../../Providers/scheme_selector.dart';
+
+class record_screen extends StatefulWidget {
+  static const id = '/record_master1';
   @override
-  State<mature_screen> createState() => _mature_screenState();
+  State<record_screen> createState() => _record_screenState();
 }
 
-class _mature_screenState extends State<mature_screen> {
+class _record_screenState extends State<record_screen> {
   late int Count = 0;
   late int Amount = 0;
   final _firestone = FirebaseFirestore.instance;
@@ -25,7 +27,7 @@ class _mature_screenState extends State<mature_screen> {
   bool sel = true;
   bool notsel = true;
   final _inactiveColor = Color(0xff71757A);
-/*   void strm(String Name) {
+  void strm(String Name) {
     StreamBuilder(
         stream: _firestone
             .collection('new_account')
@@ -48,7 +50,7 @@ class _mature_screenState extends State<mature_screen> {
             ],
           );
         });
-  } */
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -80,7 +82,7 @@ class _mature_screenState extends State<mature_screen> {
           SizedBox(
             height: size.height * 0.005,
           ),
-          StreamBuilder(
+          StreamBuilder(  
               stream: _firestone
                   .collection('new_place')
                   .orderBy('Name')
@@ -97,7 +99,7 @@ class _mature_screenState extends State<mature_screen> {
                 List<Widget> Memberlist = [];
                 for (var tile in tiles) {
                   Name = tile.get('Name');
-                  Memberlist.add(mature_tile(Name));
+                  Memberlist.add(record_tile(Name));
                 }
                 return _isloading
                     ? Center(
@@ -119,4 +121,5 @@ class _mature_screenState extends State<mature_screen> {
       bottomNavigationBar: buildBottomBar(),
     );
   }
+
 }

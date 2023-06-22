@@ -64,6 +64,7 @@ class _newmemState extends State<newmem> {
 
   DateTime date_open = DateTime(2022, 12, 24);
   DateTime date_mature = DateTime(2030, 1, 15);
+  DateTime payment_date = DateTime(2023, 1, 15);
   @override
   Widget build(BuildContext context) {
     DateTime now = DateTime.now();
@@ -591,8 +592,7 @@ class _newmemState extends State<newmem> {
                             'mode': mode,
                             'installment': 0,
                             'status': status,
-                            'payment_date':
-                                '${now.year}-${now.month}-${now.day}',
+                            'payment_date': payment_date,
                           });
                           setState(() {
                             Navigator.of(context).pop();

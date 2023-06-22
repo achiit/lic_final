@@ -160,14 +160,22 @@ class _maturityState extends State<maturity> {
                       date_mature.millisecondsSinceEpoch);
                   int yearm = datem.year;
                   int monthm = datem.month;
-                  if (month >= monthm) {
-                    value = month - monthm;
+                  if ((month - monthm == 0) && yearm == year) {
+                    value = 0;
+                  } else if ((monthm - month == 1) && yearm == year) {
+                    value = 1;
+                  } else if ((monthm - month >= 1 && monthm - month <= 3) &&
+                      yearm == year) {
+                    value = 3;
+                  } else if ((monthm - month >= 3 && monthm - month <= 6) &&
+                      yearm == year) {
+                    value = 6;
+                  } else if (yearm - year == 1 && month - monthm == 11) {
+                    value = 1;
                   } else {
-                    monthm = 12 - monthm;
-                    value = month + monthm;
+                    value = -1;
                   }
-                  print(
-                      "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX $value");
+                  print("value $value");
                   if (value == 00 && _currentIndex == 0)
                     addData(Memberlist, size);
                   else if ((value == 01) && _currentIndex == 1)
@@ -212,7 +220,7 @@ class _maturityState extends State<maturity> {
       onItemSelected: (index) => setState(() => _currentIndex = index),
       items: <AboveNavyBarItem>[
         AboveNavyBarItem(
-          alpha: 'CurrentMonth',
+          alpha: 'This Month',
           activeColor: Colors.grey,
           inactiveColor: _inactiveColor,
         ),

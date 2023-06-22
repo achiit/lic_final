@@ -9,7 +9,7 @@ class CustomAnimatedAboveBar extends StatelessWidget {
     this.iconSize = 24,
     this.backgroundColor,
     this.itemCornerRadius = 50,
-    this.containerHeight = 40,
+    this.containerHeight = 80,
     this.animationDuration = const Duration(milliseconds: 0),
     this.mainAxisAlignment = MainAxisAlignment.spaceBetween,
     required this.items,
@@ -108,7 +108,7 @@ class _ItemWidget extends StatelessWidget {
       container: true,
       selected: isSelected,
       child: AnimatedContainer(
-        width: 70,
+        width: 100,
         height: double.maxFinite,
         duration: animationDuration,
         curve: curve,
@@ -119,9 +119,9 @@ class _ItemWidget extends StatelessWidget {
         ),
         child: SingleChildScrollView(
           scrollDirection: Axis.horizontal,
-          physics: NeverScrollableScrollPhysics(),
+          //physics: NeverScrollableScrollPhysics(),
           child: Container(
-            width: 70,
+            width: 100,
             padding: EdgeInsets.symmetric(horizontal: 4),
             child: Row(
               mainAxisSize: MainAxisSize.max,

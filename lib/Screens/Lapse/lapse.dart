@@ -1,21 +1,70 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:internship2/Providers/month_selector.dart';
 import 'package:internship2/Providers/custom_animated_bottom_bar.dart';
 import 'package:internship2/Providers/_buildBottomBar.dart';
-import '../../../models/views/lapse_display.dart';
+import '../../models/views/maturity_display.dart';
 import 'package:internship2/Screens/Menu.dart';
+import '../../models/views/due_display.dart';
 
 class lapse extends StatefulWidget {
   static const id = '/lapse';
+  lapse(
+    this.Location,
+  );
+  String Location;
   @override
-  State<lapse> createState() => _lapseState();
+  State<lapse> createState() => _lapseState(Location);
 }
 
 class _lapseState extends State<lapse> {
-  int _currentIndex = 1;
+  _lapseState(
+    this.Location,
+  );
+  String Location;
+  late String Member_Name;
+  late String Plan;
+  late String Account_No;
+  late Timestamp date_open;
+  late Timestamp date_mature;
+  late String mode;
+  late int installment;
+  late String status;
+  late int Amount_Collected;
+  late int Amount_Remaining;
+  late int Monthly;
+  String Type = 'Daily';
+  int value = 0;
+  var _isloading = false;
+  late final _firestone = FirebaseFirestore.instance;
+  int _currentIndex = 0;
+  int _currentIndex2 = 0;
   final _inactiveColor = Color(0xffEBEBEB);
+  void addData(List<Widget> Memberlist, size) {
+    Memberlist.add(
+      due_data(
+        size: size,
+        Member_Name: Member_Name,
+        Plan: Plan,
+        Account_No: Account_No,
+        date_mature: date_mature,
+        date_open: date_open,
+        mode: mode,
+        installment: installment,
+        status: status,
+        Location: Location,
+        Amount_Collected: Amount_Collected,
+        Amount_Remaining: Amount_Remaining,
+        Monthly: Monthly,
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
+    DateTime now = DateTime.now();
+    int month = now.month;
+    int year = now.year;
     Size size = MediaQuery.of(context).size;
     return Scaffold(
       backgroundColor: Colors.white,
@@ -74,62 +123,92 @@ class _lapseState extends State<lapse> {
                   style: BorderStyle.solid,
                 ),
               ),
-              child: _buildAboveBar(),
+              child: buildAboveBar(),
             ),
           ),
-          SingleChildScrollView(
-            child: Padding(
-              padding: const EdgeInsets.only(left: 12.0),
-              child: Row(
-                children: [
-                  Text(
-                    'Chiran Road',
-                    style: TextStyle(
-                      fontSize: 13.5,
-                      color: Color(0xff205955),
-                      fontWeight: FontWeight.w500,
+          StreamBuilder(
+              stream: _firestone
+                  .collection('new_account')
+                  .doc(Location)
+                  .collection(Location)
+                  .orderBy('Member_Name')
+                  .snapshots(),
+              builder: (context, snapshot) {
+                if (!snapshot.hasData) {
+                  return Center(
+                    child: CircularProgressIndicator(
+                      backgroundColor: Colors.lightBlueAccent,
                     ),
-                    textAlign: TextAlign.left,
-                  ),
-                ],
-              ),
-            ),
-          ),
-          Container(
-            height: size.height * 0.23,
-            child: lapse_data(size: size),
-          ),
-          Container(
-            height: size.height * 0.23,
-            child: lapse_data(size: size),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(left: 12.0),
-            child: Row(
-              children: [
-                Text(
-                  'Rewa Road',
-                  style: TextStyle(
-                    fontSize: 13.5,
-                    color: Color(0xff205955),
-                    fontWeight: FontWeight.w500,
-                  ),
-                  textAlign: TextAlign.left,
-                ),
-              ],
-            ),
-          ),
-          // Container(
-          //   height: size.height * 0.23,
-          //   child: due_data(size: size),
-          // ),
+                  );
+                }
+                final tiles = snapshot.data!.docs;
+                List<Widget> Memberlist = [];
+                for (var tile in tiles) {
+                  Member_Name = tile.get('Member_Name');
+                  Plan = tile.get('Plan');
+                  Account_No = tile.get('Account_No').toString();
+                  date_open = tile.get('Date_of_Opening');
+                  date_mature = tile.get('Date_of_Maturity');
+                  Type = tile.get('Type');
+                  mode = tile.get('mode');
+                  status = tile.get('status');
+                  installment = tile.get('installment');
+                  Amount_Remaining = tile.get('Amount_Remaining');
+                  Amount_Collected = tile.get('Amount_Collected');
+                  Monthly = tile.get('monthly');
+                  final datem = DateTime.fromMillisecondsSinceEpoch(
+                      date_mature.millisecondsSinceEpoch);
+                  int yearm = datem.year;
+                  int monthm = datem.month;
+                  if ((month - monthm == 0) && yearm == year) {
+                    value = 0;
+                  } else if ((monthm - month == 1) && yearm == year) {
+                    value = 1;
+                  } else if ((monthm - month >= 1 && monthm - month <= 3) &&
+                      yearm == year) {
+                    value = 3;
+                  } else if ((monthm - month >= 3 && monthm - month <= 6) &&
+                      yearm == year) {
+                    value = 6;
+                  } else if (yearm - year == 1 && month - monthm == 11) {
+                    value = 1;
+                  } else {
+                    value = -1;
+                  }
+                  print("value $value");
+                  if (value == 00 && _currentIndex == 0)
+                    addData(Memberlist, size);
+                  else if ((value == 01) && _currentIndex == 1)
+                    addData(Memberlist, size);
+                  else if ((value <= 03 && value > 01) && _currentIndex == 2)
+                    addData(Memberlist, size);
+                  else if ((value <= 06 && value > 03) && _currentIndex == 3)
+                    addData(Memberlist, size);
+                }
+                return _isloading
+                    ? Center(
+                        child: CircularProgressIndicator(),
+                      )
+                    : SingleChildScrollView(
+                        child: Column(
+                          children: [
+                            SizedBox(
+                                height: size.height * 0.68,
+                                child: ListView.builder(
+                                  itemCount: Memberlist.length,
+                                  itemBuilder: (context, i) => Memberlist[i],
+                                )),
+                          ],
+                        ),
+                      );
+              }),
         ],
       ),
       bottomNavigationBar: buildBottomBar(),
     );
   }
 
-  Widget _buildAboveBar() {
+  Widget buildAboveBar() {
     Size size = MediaQuery.of(context).size;
     return CustomAnimatedAboveBar(
       containerHeight: size.height * 0.07,
@@ -141,7 +220,7 @@ class _lapseState extends State<lapse> {
       onItemSelected: (index) => setState(() => _currentIndex = index),
       items: <AboveNavyBarItem>[
         AboveNavyBarItem(
-          alpha: '3 months',
+          alpha: '3 Months',
           activeColor: Colors.grey,
           inactiveColor: _inactiveColor,
         ),
@@ -151,7 +230,7 @@ class _lapseState extends State<lapse> {
           inactiveColor: _inactiveColor,
         ),
         AboveNavyBarItem(
-          alpha: '1 Year',
+          alpha: '1 year',
           activeColor: Colors.grey,
           inactiveColor: _inactiveColor,
         ),

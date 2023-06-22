@@ -42,7 +42,7 @@ class buildBottomBarState extends State<buildBottomBar> {
             icon: Icon(Icons.home_filled),
             activeColor: Color(0xff32B9AE),
             inactiveColor: _inactiveColor,
-            route: '/place'),
+            route: '/acc_summ'),
         BottomNavyBarItem(
             icon: Icon(Icons.event_note_sharp),
             activeColor: Color(0xff32B9AE),

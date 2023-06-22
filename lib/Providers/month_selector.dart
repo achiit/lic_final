@@ -104,44 +104,38 @@ class _ItemWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Semantics(
-      container: true,
-      selected: isSelected,
-      child: AnimatedContainer(
-        width: 87,
-        height: double.maxFinite,
-        duration: animationDuration,
-        curve: curve,
-        decoration: BoxDecoration(
-          color:
-              isSelected ? item.activeColor.withOpacity(0.2) : backgroundColor,
-          borderRadius: BorderRadius.circular(itemCornerRadius),
-        ),
-        child: SingleChildScrollView(
-          scrollDirection: Axis.horizontal,
-          physics: NeverScrollableScrollPhysics(),
-          child: Container(
-            width: 93,
-            padding: EdgeInsets.symmetric(horizontal: 8),
+    return AnimatedContainer(
+      width: 87,
+      height: double.maxFinite,
+      duration: animationDuration,
+      curve: curve,
+      decoration: BoxDecoration(
+        color: isSelected ? item.activeColor.withOpacity(0.2) : backgroundColor,
+        borderRadius: BorderRadius.circular(itemCornerRadius),
+      ),
+      child: SingleChildScrollView(
+        scrollDirection: Axis.horizontal,
+        physics: NeverScrollableScrollPhysics(),
+        child: Container(
+          width: 93,
+          height: 30,
+          padding: EdgeInsets.symmetric(horizontal: 6),
+          child: IconTheme(
+            data: IconThemeData(
+              size: alphaSize,
+              color: isSelected
+                  ? item.activeColor.withOpacity(1)
+                  : item.inactiveColor == null
+                      ? item.activeColor
+                      : item.inactiveColor,
+            ),
             child: Row(
-              mainAxisSize: MainAxisSize.max,
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: <Widget>[
-                IconTheme(
-                  data: IconThemeData(
-                    size: alphaSize,
-                    color: isSelected
-                        ? item.activeColor.withOpacity(1)
-                        : item.inactiveColor == null
-                            ? item.activeColor
-                            : item.inactiveColor,
-                  ),
-                  child: Text(
-                    item.alpha,
-                    style: TextStyle(
-                      fontSize: 11,
-                    ),
+              children: [
+                Text(
+                  item.alpha,
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(
+                    fontSize: 11,
                   ),
                 ),
               ],

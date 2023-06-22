@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:internship2/Screens/Account/account_summary.dart';
+import 'package:internship2/Screens/Lapse/lapsescreen.dart';
 import 'package:internship2/Screens/Place/plaace.dart';
 import 'package:internship2/Screens/Place/place_edit.dart';
+import 'package:internship2/Screens/Records/location.dart';
+import 'package:internship2/Screens/Records/record_screen.dart';
 import 'Screens/Place/usersearch.dart';
 import 'Screens/Place/newmember.dart';
 import 'Screens/Account/Account_Master.dart';
@@ -36,11 +40,13 @@ class MyApp extends StatelessWidget {
                 initialRoute: place.id,
                 routes: {
                   mature_screen.id: (ctx) => mature_screen(),
+                  lapse_screen.id: (ctx) => lapse_screen(),
                   due_screen.id: (ctx) => due_screen(),
                   collection2.id: (ctx) => collection2(''),
                   collection.id: (ctx) => collection(1),
-                  lapse.id: (ctx) => lapse(),
+                 
                   maturity.id: (ctx) => maturity(''),
+                  lapse.id: (ctx) => lapse(''),
                   due.id: (ctx) => due(''),
                   menu.id: (ctx) => menu(),
                   placeedit.id1: (ctx) => placeedit(),
@@ -49,6 +55,9 @@ class MyApp extends StatelessWidget {
                   acc_screen.id: (ctx) => acc_screen(0),
                   newmem.id: (ctx) => newmem(''),
                   user.id: (ctx) => user(''),
+                  Record_Page.id: (ctx) => Record_Page(''),
+                  record_screen.id: (ctx) => record_screen(),
+                  AccountSummary.id: (ctx) => AccountSummary(),
                 }));
   }
 }

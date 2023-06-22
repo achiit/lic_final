@@ -59,7 +59,9 @@ class _dueState extends State<due> {
   }
 
   void condition(List<Widget> Memberlist, size, type, index) {
-    if (type == 'Paid' && index == 0)
+    if (type == 'A' && index == 1)
+      addData(Memberlist, size);
+    else if (type == 'B' && index == 2)
       addData(Memberlist, size);
     else
       addData(Memberlist, size);
@@ -129,7 +131,7 @@ class _dueState extends State<due> {
             ),
             child: _buildAboveBar2(),
           ),
-          Container(
+          /* Container(
             decoration: BoxDecoration(
               borderRadius: BorderRadius.all(
                 Radius.circular(40),
@@ -141,7 +143,7 @@ class _dueState extends State<due> {
               ),
             ),
             child: _buildAboveBar(),
-          ),
+          ), */
           SingleChildScrollView(
             child: StreamBuilder(
                 stream: _firestone
@@ -173,14 +175,12 @@ class _dueState extends State<due> {
                     Amount_Collected = tile.get('Amount_Collected');
                     Monthly = tile.get('monthly');
                     str(Account_No);
-                    if (_currentIndex == 1) {
-                      if (Plan == 'A')
-                        condition(Memberlist, size, status, _currentIndex2);
-                    } else if (_currentIndex == 2) {
-                      if (Plan == 'B')
-                        condition(Memberlist, size, status, _currentIndex2);
-                    } else {
-                      condition(Memberlist, size, Type, _currentIndex2);
+                    if (_currentIndex2 == 0) {
+                      if (status == 'Paid')
+                        condition(Memberlist, size, Plan, _currentIndex);
+                    } else if (_currentIndex2 == 1) {
+                      if (status != 'Paid')
+                        condition(Memberlist, size, Plan, _currentIndex);
                     }
                   }
                   return _isloading
@@ -204,7 +204,7 @@ class _dueState extends State<due> {
     );
   }
 
-  Widget _buildAboveBar() {
+/*   Widget _buildAboveBar() {
     Size size = MediaQuery.of(context).size;
     return CustomAnimatedAboveBar(
       containerHeight: size.height * 0.07,
@@ -232,7 +232,7 @@ class _dueState extends State<due> {
         ),
       ],
     );
-  }
+  } */
 
   Widget _buildAboveBar2() {
     Size size = MediaQuery.of(context).size;

@@ -330,19 +330,25 @@ class _due_dataState extends State<due_data> {
                       ),
                       Text('$Monthly/-'),
                       SizedBox(
-                        width: widget.size.width * 0.27,
-                      ),
-                      Text(
-                        'Installments',
-                        style: TextStyle(
-                          fontSize: 13.5,
-                          color: Color(0xffAF545F),
-                          fontWeight: FontWeight.w500,
-                        ),
-                        textAlign: TextAlign.left,
+                        width: widget.size.width * 0.18,
                       ),
                       SizedBox(
-                        width: widget.size.width * 0.03,
+                        child: Wrap(
+                          children: [
+                            Text(
+                              'Installments',
+                              style: TextStyle(
+                                fontSize: 13.5,
+                                color: Color(0xffAF545F),
+                                fontWeight: FontWeight.w500,
+                              ),
+                              textAlign: TextAlign.left,
+                            ),
+                          ],
+                        ),
+                      ),
+                      SizedBox(
+                        width: widget.size.width * 0.01,
                       ),
                       Text(
                         '$installment/12',

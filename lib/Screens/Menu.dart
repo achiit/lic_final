@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:internship2/Screens/Account/acc_screen.dart';
+import 'package:internship2/Screens/Lapse/lapsescreen.dart';
+import 'package:internship2/Screens/Records/location.dart';
+import 'package:internship2/Screens/Records/record_screen.dart';
 import 'package:internship2/models/views/due_display.dart';
 import 'package:internship2/models/views/menu_tile.dart';
 import 'package:internship2/Screens/Due/due_screen.dart';
@@ -39,13 +42,13 @@ class menu extends StatelessWidget {
               menu_tile(
                 tle: 'Records ',
                 logo: Image.asset('assets/menu/records.png'),
-                route: '',
+                route: record_screen.id,
               ),
               menu_tile(
                 tle: 'Lapse '
                     'Account',
                 logo: Image.asset('assets/menu/lapse.png'),
-                route: lapse.id,
+                route: lapse_screen.id,
               ),
             ],
           ),

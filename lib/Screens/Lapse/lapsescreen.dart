@@ -3,19 +3,20 @@ import 'package:flutter/material.dart';
 import 'package:internship2/Screens/Place/place_edit.dart';
 import 'package:internship2/Providers/_buildBottomBar.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:internship2/models/User_Tile/lapse_tile.dart';
 import 'package:internship2/models/User_Tile/place_tile.dart';
 import 'package:internship2/Screens/Menu.dart';
 import 'package:internship2/Screens/Collection/collection2.dart';
 import 'package:internship2/models/User_Tile/collection_tile.dart';
 import 'package:internship2/models/User_Tile/mature_tile.dart';
 
-class mature_screen extends StatefulWidget {
-  static const id = '/mature_master1';
+class lapse_screen extends StatefulWidget {
+  static const id = '/lapse_master1';
   @override
-  State<mature_screen> createState() => _mature_screenState();
+  State<lapse_screen> createState() => _lapse_screenState();
 }
 
-class _mature_screenState extends State<mature_screen> {
+class _lapse_screenState extends State<lapse_screen> {
   late int Count = 0;
   late int Amount = 0;
   final _firestone = FirebaseFirestore.instance;
@@ -97,7 +98,7 @@ class _mature_screenState extends State<mature_screen> {
                 List<Widget> Memberlist = [];
                 for (var tile in tiles) {
                   Name = tile.get('Name');
-                  Memberlist.add(mature_tile(Name));
+                  Memberlist.add(lapse_title(Name));
                 }
                 return _isloading
                     ? Center(
