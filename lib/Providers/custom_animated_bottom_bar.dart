@@ -4,7 +4,7 @@ import 'package:flutter/widgets.dart';
 class CustomAnimatedBottomBar extends StatelessWidget {
   CustomAnimatedBottomBar({
     Key? key,
-    required this.rute,
+    this.rute,
     this.selectedIndex = 0,
     this.showElevation = true,
     this.iconSize = 24,
@@ -18,7 +18,7 @@ class CustomAnimatedBottomBar extends StatelessWidget {
     this.curve = Curves.linear,
   })  : assert(items.length >= 2 && items.length <= 5),
         super(key: key);
-  final String rute;
+  final String? rute;
   final int selectedIndex;
   final double iconSize;
   final Color? backgroundColor;
@@ -49,7 +49,7 @@ class CustomAnimatedBottomBar extends StatelessWidget {
       child: SafeArea(
         child: TextButton(
           onPressed: () {
-            Navigator.of(context).pushNamed(rute);
+            Navigator.of(context).pushReplacementNamed(rute!);
           },
           child: Container(
             width: double.infinity,

@@ -8,6 +8,7 @@ import 'package:internship2/Screens/Menu.dart';
 import 'package:internship2/Screens/Collection/collection2.dart';
 import 'package:internship2/models/User_Tile/collection_tile.dart';
 import 'package:internship2/models/User_Tile/record_tile.dart';
+import 'package:internship2/widgets/customnavbar.dart';
 
 import '../../Providers/scheme_selector.dart';
 
@@ -62,7 +63,7 @@ class _record_screenState extends State<record_screen> {
           onPressed: () {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => const menu()),
+              MaterialPageRoute(builder: (context) => const CustomNavBar()),
             );
           },
           icon: Icon(
@@ -82,7 +83,7 @@ class _record_screenState extends State<record_screen> {
           SizedBox(
             height: size.height * 0.005,
           ),
-          StreamBuilder(  
+          StreamBuilder(
               stream: _firestone
                   .collection('new_place')
                   .orderBy('Name')
@@ -118,8 +119,6 @@ class _record_screenState extends State<record_screen> {
               })
         ]),
       ),
-      bottomNavigationBar: buildBottomBar(),
     );
   }
-
 }

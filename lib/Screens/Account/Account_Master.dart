@@ -1,16 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:internship2/Providers/scheme_selector.dart';
-import 'package:internship2/Providers/custom_animated_bottom_bar.dart';
 import 'package:internship2/Providers/_buildBottomBar.dart';
+import 'package:internship2/widgets/customnavbar.dart';
 import '../../models/views/displayed_data.dart';
 import 'package:internship2/Screens/Menu.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class acc_master extends StatefulWidget {
   static const id = '/acc_master';
-  acc_master(
-    this.Location,
-  );
+  acc_master(this.Location, {super.key});
   String Location;
   @override
   State<acc_master> createState() => _acc_masterState(Location);
@@ -22,18 +20,19 @@ class _acc_masterState extends State<acc_master> {
   );
   String Location;
   int _currentIndex = 1;
-  int _currentscheme = 0;
+  final int _currentscheme = 0;
   late String Member_Name;
   late String Plan;
   late String Account_No;
   late Timestamp date_open;
   late Timestamp date_mature;
-  var _isloading = false;
+  final _isloading = false;
   late final _firestone = FirebaseFirestore.instance;
-  final _inactiveColor = Color(0xffEBEBEB);
+  final _inactiveColor = const Color(0xffEBEBEB);
   void addData(List<Widget> Memberlist, size) {
     Memberlist.add(
       displayeddata(
+        Location: Location,
         size: size,
         Member_Name: Member_Name,
         Plan: Plan,
@@ -55,10 +54,10 @@ class _acc_masterState extends State<acc_master> {
           onPressed: () {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => const menu()),
+              MaterialPageRoute(builder: (context) => const CustomNavBar()),
             );
           },
-          icon: Icon(
+          icon: const Icon(
             Icons.arrow_back_ios_new_outlined,
             color: Color(0xff144743),
           ),
@@ -70,11 +69,11 @@ class _acc_masterState extends State<acc_master> {
               width: size.width * 0.60,
               height: size.height * 0.05,
               decoration: BoxDecoration(
-                  color: Color(0XFFEBEBEB),
+                  color: const Color(0XFFEBEBEB),
                   borderRadius: BorderRadius.circular(18)),
-              child: TextField(
+              child: const TextField(
                 decoration: InputDecoration(
-                    prefixIcon: const Icon(
+                    prefixIcon: Icon(
                       Icons.search,
                       color: Color(0XFF999999),
                     ),
@@ -97,7 +96,7 @@ class _acc_masterState extends State<acc_master> {
             padding: const EdgeInsets.all(8.0),
             child: Container(
               decoration: BoxDecoration(
-                borderRadius: BorderRadius.all(
+                borderRadius: const BorderRadius.all(
                   Radius.circular(40),
                 ),
                 border: Border.all(
@@ -134,7 +133,7 @@ class _acc_masterState extends State<acc_master> {
                   .snapshots(),
               builder: (context, snapshot) {
                 if (!snapshot.hasData) {
-                  return Center(
+                  return const Center(
                     child: CircularProgressIndicator(
                       backgroundColor: Colors.lightBlueAccent,
                     ),
@@ -157,7 +156,7 @@ class _acc_masterState extends State<acc_master> {
                   }
                 }
                 return _isloading
-                    ? Center(
+                    ? const Center(
                         child: CircularProgressIndicator(),
                       )
                     : Column(
@@ -173,7 +172,6 @@ class _acc_masterState extends State<acc_master> {
               })
         ],
       ),
-      bottomNavigationBar: buildBottomBar(),
     );
   }
 

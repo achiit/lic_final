@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:internship2/Providers/month_selector.dart';
 import 'package:internship2/Providers/custom_animated_bottom_bar.dart';
 import 'package:internship2/Providers/_buildBottomBar.dart';
+import 'package:internship2/widgets/customnavbar.dart';
 import '../../models/views/maturity_display.dart';
 import 'package:internship2/Screens/Menu.dart';
 import '../../models/views/due_display.dart';
@@ -74,7 +75,7 @@ class _lapseState extends State<lapse> {
           onPressed: () {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => const menu()),
+              MaterialPageRoute(builder: (context) => const CustomNavBar()),
             );
           },
           icon: Icon(
@@ -204,7 +205,6 @@ class _lapseState extends State<lapse> {
               }),
         ],
       ),
-      bottomNavigationBar: buildBottomBar(),
     );
   }
 

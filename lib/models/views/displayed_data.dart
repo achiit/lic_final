@@ -1,12 +1,15 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:internship2/widgets/bottom_circular_button.dart';
 import 'package:intl/intl.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class displayeddata extends StatelessWidget {
   displayeddata({
     super.key,
     required this.size,
     required this.date_open,
+    required this.Location,
     required this.date_mature,
     required this.Account_No,
     required this.Member_Name,
@@ -17,6 +20,7 @@ class displayeddata extends StatelessWidget {
   final String Account_No;
   final Timestamp date_open;
   final Timestamp date_mature;
+  final String Location;
   final Size size;
 
   @override
@@ -165,32 +169,58 @@ class displayeddata extends StatelessWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  RawMaterialButton(
-                    padding: EdgeInsets.all(8.0),
-                    constraints: BoxConstraints(minWidth: 20),
-                    onPressed: () {},
-                    child: Image.asset('assets/Acc/IC2.png'),
-                    elevation: 2.0,
-                    fillColor: Colors.white,
-                    shape: CircleBorder(),
+                  circular_button(
+                    onpressed: () {
+                      print("hello");
+                      String phoneNo = ""; // Nullable variable
+
+                      FirebaseFirestore.instance
+                          .collection('new_account')
+                          .doc(Location)
+                          .collection(Location)
+                          .doc(Account_No)
+                          .get()
+                          .then((DocumentSnapshot<Map<String, dynamic>>
+                              documentSnapshot) {
+                        if (documentSnapshot.exists) {
+                          var data = documentSnapshot.data();
+                          if (data != null) {
+                            phoneNo = data['Phone_No'];
+                            print(phoneNo);
+
+                            if (phoneNo.isNotEmpty) {
+                              launchUrl(Uri.parse("tel:+91$phoneNo"));
+                            } else {
+                              print('Phone number is empty');
+                            }
+                          }
+                        } else {
+                          print('Document does not exist in the database');
+                        }
+                      }).catchError((error) {
+                        print('Error retrieving document: $error');
+                      });
+                    },
+                    size: 20,
+                    icon: Image.asset('assets/Acc/IC2.png'),
                   ),
-                  RawMaterialButton(
-                    padding: EdgeInsets.all(8.0),
-                    constraints: BoxConstraints(minWidth: 20),
-                    onPressed: () {},
-                    child: Image.asset('assets/Acc/IC4.png'),
-                    elevation: 2.0,
-                    fillColor: Colors.white,
-                    shape: CircleBorder(),
-                  ),
-                  RawMaterialButton(
-                    padding: EdgeInsets.all(8.0),
-                    constraints: BoxConstraints(minWidth: 20),
-                    onPressed: () {},
-                    child: Image.asset('assets/Acc/IC5.png'),
-                    elevation: 2.0,
-                    fillColor: Colors.white,
-                    shape: CircleBorder(),
+                  // circular_button(
+                  //   size: 20,
+                  //   icon: Image.asset('assets/Acc/IC4.png'),
+                  // ),
+                  circular_button(
+                    onpressed: () {
+                      print("hello");
+
+                      FirebaseFirestore.instance
+                          .collection('new_account')
+                          .doc(Location)
+                          .collection(Location)
+                          .doc(Account_No)
+                          .delete();
+                    },
+                    size: 20,
+                    icon: Image.asset('assets/Acc/IC5.png'),
                   ),
                 ],
               ),

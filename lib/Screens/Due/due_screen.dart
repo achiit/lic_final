@@ -8,6 +8,7 @@ import 'package:internship2/Screens/Menu.dart';
 import 'package:internship2/Screens/Collection/collection2.dart';
 import 'package:internship2/models/User_Tile/collection_tile.dart';
 import 'package:internship2/models/User_Tile/due_tile.dart';
+import 'package:internship2/widgets/customnavbar.dart';
 
 class due_screen extends StatefulWidget {
   static const id = '/due_master1';
@@ -58,9 +59,9 @@ class _due_screenState extends State<due_screen> {
         backgroundColor: Colors.white,
         leading: IconButton(
           onPressed: () {
-            Navigator.push(
+           Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => const menu()),
+              MaterialPageRoute(builder: (context) => const CustomNavBar()),
             );
           },
           icon: Icon(
@@ -116,7 +117,6 @@ class _due_screenState extends State<due_screen> {
               })
         ]),
       ),
-      bottomNavigationBar: buildBottomBar(),
     );
   }
 }

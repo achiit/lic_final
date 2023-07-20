@@ -1,20 +1,15 @@
-import 'package:calendar_timeline/calendar_timeline.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:date_picker_timeline/date_picker_timeline.dart';
 import 'package:flutter/material.dart';
-import 'package:horizontal_week_calendar/horizontal_week_calendar.dart';
-import 'package:internship2/Screens/Records/recorddata.dart';
 import 'package:internship2/models/views/due_display.dart';
-import 'package:internship2/widgets/custom_date_pickeer.dart';
-import 'package:internship2/widgets/customized_date_picker2.dart';
+import 'package:internship2/widgets/customnavbar.dart';
+import 'package:intl/intl.dart';
 
 import '../../Providers/scheme_selector.dart';
 
 class Record_Page extends StatefulWidget {
   static const id = '/Record_Page';
-  Record_Page(
-    this.Location,
-  );
+  Record_Page(this.Location, {super.key});
   String Location;
   @override
   State<Record_Page> createState() => _Record_PageState(Location);
@@ -40,11 +35,11 @@ class _Record_PageState extends State<Record_Page> {
   late int Amount_Collected;
   late int Amount_Remaining;
   late int Monthly;
-  var _isloading = false;
+  final _isloading = false;
   late final _firestone = FirebaseFirestore.instance;
   int _currentIndex = 1;
-  int _currentIndex2 = 0;
-  final _inactiveColor = Color(0xffEBEBEB);
+  final int _currentIndex2 = 0;
+  final _inactiveColor = const Color(0xffEBEBEB);
   void addData(List<Widget> Memberlist, size) {
     Memberlist.add(
       due_data(
@@ -73,6 +68,10 @@ class _Record_PageState extends State<Record_Page> {
     'Item 4',
     'Item 5',
   ];
+
+  DateTime dateTime1 = DateTime(1900);
+  DateTime dateTime2 = DateTime(1900);
+
   @override
   void initState() {
     dateInput.text = ""; //set the initial value of text field
@@ -120,7 +119,7 @@ class _Record_PageState extends State<Record_Page> {
           child: SingleChildScrollView(
         child: Column(
           children: <Widget>[
-            SizedBox(
+            const SizedBox(
               height: 20,
             ),
             Padding(
@@ -130,25 +129,135 @@ class _Record_PageState extends State<Record_Page> {
                 children: [
                   IconButton(
                       onPressed: () {
-                        Navigator.pop(context);
+                        Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => const CustomNavBar()),
+            );
                       },
-                      icon: Icon(Icons.arrow_back_ios)),
-                  customized_date_picker1(
-                      title: "From Date", size: size, dateInput: dateInput),
-                  SizedBox(
+                      icon: const Icon(Icons.arrow_back_ios)),
+                  Expanded(
+                    child: SizedBox(
+                      width: size.width / 2.4,
+                      height: size.height * 0.067,
+                      /* decoration: BoxDecoration(
+          color: Color(0XFFEBEBEB),
+          borderRadius: BorderRadius.circular(18)), */
+                      child: Center(
+                        child: TextField(
+                          controller: dateInput,
+                          //editing controller of this TextField
+                          decoration: InputDecoration(
+                              prefixIcon: const Icon(
+                                Icons.calendar_today,
+                                size: 20,
+                              ),
+                              labelText: "From Date",
+                              labelStyle: const TextStyle(fontSize: 13),
+                              hintText: dateInput.text,
+                              enabledBorder: OutlineInputBorder(
+                                borderSide: const BorderSide(
+                                    width: 3,
+                                    color: Colors.grey), //<-- SEE HERE
+                                borderRadius: BorderRadius.circular(50.0),
+                              )),
+                          readOnly: true,
+                          //set it true, so that user will not able to edit text
+                          onTap: () async {
+                            DateTime? pickedDate = await showDatePicker(
+                                context: context,
+                                initialDate: DateTime.now(),
+                                firstDate: DateTime(1950),
+                                //DateTime.now() - not to allow to choose before today.
+                                lastDate: DateTime(2100));
+                            print(pickedDate);
+                            if (pickedDate != null) {
+                              print(
+                                  pickedDate); //pickedDate output format => 2021-03-10 00:00:00.000
+                              String formattedDate =
+                                  DateFormat('yyyy-MM-dd').format(pickedDate);
+
+                              print(
+                                  formattedDate); //formatted date output using intl package =>  2021-03-16
+                              setState(
+                                () {
+                                  dateInput.text =
+                                      formattedDate; //set output date to TextField value.
+                                  dateTime1 = pickedDate;
+                                },
+                              );
+                            } else {}
+                          },
+                        ),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(
                     width: 4,
                   ),
-                  customized_date_picker2(
-                      title: "To Date", size: size, dateInput2: dateInput2),
+                  Expanded(
+                    child: SizedBox(
+                      width: size.width / 2.4,
+                      height: size.height * 0.067,
+                      /* decoration: BoxDecoration(
+          color: Color(0XFFEBEBEB),
+          borderRadius: BorderRadius.circular(18)), */
+                      child: Center(
+                        child: TextField(
+                          controller: dateInput2,
+                          //editing controller of this TextField
+                          decoration: InputDecoration(
+                              prefixIcon: const Icon(
+                                Icons.calendar_today,
+                                size: 20,
+                              ),
+                              labelText: "To Date",
+                              labelStyle: const TextStyle(fontSize: 13),
+                              hintText: "Hello",
+                              enabledBorder: OutlineInputBorder(
+                                borderSide: const BorderSide(
+                                    width: 3,
+                                    color: Colors.grey), //<-- SEE HERE
+                                borderRadius: BorderRadius.circular(50.0),
+                              )),
+                          readOnly: true,
+                          //set it true, so that user will not able to edit text
+                          onTap: () async {
+                            DateTime? pickedDate2 = await showDatePicker(
+                                context: context,
+                                initialDate: DateTime.now(),
+                                firstDate: DateTime(1950),
+                                //DateTime.now() - not to allow to choose before today.
+                                lastDate: DateTime(2100));
+                            print(pickedDate2);
+                            if (pickedDate2 != null) {
+                              print(
+                                  pickedDate2); //pickedDate2 output format => 2021-03-10 00:00:00.000
+                              String formattedDate2 =
+                                  DateFormat('yyyy-MM-dd').format(pickedDate2);
+                              print(
+                                  formattedDate2); //formatted date output using intl package =>  2021-03-16
+                              setState(
+                                () {
+                                  dateInput2.text =
+                                      formattedDate2; //set output date to TextField value.
+                                  dateTime2 = pickedDate2;
+                                },
+                              );
+                            } else {}
+                          },
+                        ),
+                      ),
+                    ),
+                  ),
                 ],
               ),
             ),
-            Container(
+            SizedBox(
               height: 100,
               child: DatePicker(
                 DateTime.now(),
                 initialSelectedDate: DateTime.now(),
-                selectionColor: Color(0xff29756F),
+                selectionColor: const Color(0xff29756F),
                 selectedTextColor: Colors.white,
                 onDateChange: (date) {
                   // New date selected
@@ -163,8 +272,8 @@ class _Record_PageState extends State<Record_Page> {
               child: Container(
                 height: 50,
                 decoration: BoxDecoration(
-                  color: Color(0XFFEBF0EF),
-                  borderRadius: BorderRadius.all(
+                  color: const Color(0XFFEBF0EF),
+                  borderRadius: const BorderRadius.all(
                     Radius.circular(40),
                   ),
                   border: Border.all(
@@ -180,7 +289,7 @@ class _Record_PageState extends State<Record_Page> {
                       child: Container(
                         height: 35,
                         width: 150,
-                        decoration: BoxDecoration(
+                        decoration: const BoxDecoration(
                           color: Color(0XFFFEFEFE),
                           borderRadius: BorderRadius.all(
                             Radius.circular(40),
@@ -221,7 +330,7 @@ class _Record_PageState extends State<Record_Page> {
               padding: const EdgeInsets.all(8.0),
               child: Container(
                 decoration: BoxDecoration(
-                  borderRadius: BorderRadius.all(
+                  borderRadius: const BorderRadius.all(
                     Radius.circular(40),
                   ),
                   border: Border.all(
@@ -243,7 +352,7 @@ class _Record_PageState extends State<Record_Page> {
                       .snapshots(),
                   builder: (context, snapshot) {
                     if (!snapshot.hasData) {
-                      return Center(
+                      return const Center(
                         child: CircularProgressIndicator(
                           backgroundColor: Colors.lightBlueAccent,
                         ),
@@ -263,17 +372,30 @@ class _Record_PageState extends State<Record_Page> {
                       Amount_Remaining = tile.get('Amount_Remaining');
                       Amount_Collected = tile.get('Amount_Collected');
                       Monthly = tile.get('monthly');
-                      // str(Account_No);
+                      DateTime openingDate =
+                          DateTime.fromMicrosecondsSinceEpoch(
+                              date_open.microsecondsSinceEpoch);
+
+                      // from date != "" && to date != "", then
+                      //if from date and to date is not empty, then
+                      //check if openingDate >= from date && openingDate <= to date, then
+                      //selectedDate >= from date && selectedDate <= to date, then
+                      //add data
+
                       if (_currentIndex == 1) {
-                        if (Plan == 'A') addData(Memberlist, size);
+                        if (Plan == 'A') {
+                          dateFilter(openingDate, Memberlist, size);
+                        }
                       } else if (_currentIndex == 2) {
-                        if (Plan == 'B') addData(Memberlist, size);
+                        if (Plan == 'B') {
+                          dateFilter(openingDate, Memberlist, size);
+                        }
                       } else {
-                        addData(Memberlist, size);
+                        dateFilter(openingDate, Memberlist, size);
                       }
                     }
                     return _isloading
-                        ? Center(
+                        ? const Center(
                             child: CircularProgressIndicator(),
                           )
                         : SingleChildScrollView(
@@ -289,15 +411,44 @@ class _Record_PageState extends State<Record_Page> {
             ),
             ElevatedButton(
               style: ElevatedButton.styleFrom(
-                primary: Color(0xff29756F),
+                backgroundColor: const Color(0xff29756F),
               ),
               onPressed: () {},
-              child: Text("View Collection Sheet"),
+              child: const Text("View Collection Sheet"),
             )
           ],
         ),
       )),
     );
+  }
+
+  dateFilter(DateTime openingDate, List<Widget> Memberlist, Size size) {
+    if (dateInput.text != "" && dateInput2.text != "") {
+      if (dateTime1.isBefore(openingDate) && dateTime2.isAfter(openingDate)) {
+        addData(Memberlist, size);
+      }
+    } else {
+      if (dateInput.text != "") {
+        //
+        if (dateTime1.isBefore(openingDate)) {
+          // in range, then add data
+          addData(Memberlist, size);
+        } else {
+          Memberlist.clear();
+        }
+      } else {
+        if (dateInput2.text != "") {
+          if (dateTime2.isAfter(openingDate)) {
+            // in range, then add data
+            addData(Memberlist, size);
+          } else {
+            Memberlist.clear();
+          }
+        } else {
+          addData(Memberlist, size);
+        }
+      }
+    }
   }
 
   Widget _buildAboveBar() {

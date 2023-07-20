@@ -4,15 +4,16 @@ import 'package:intl/intl.dart';
 class customized_date_picker2 extends StatefulWidget {
   String title;
 
-  customized_date_picker2({
-    super.key,
-    required this.title,
-    required this.size,
-    required this.dateInput2,
-  });
+  customized_date_picker2(
+      {super.key,
+      required this.title,
+      required this.size,
+      required this.dateInput2,
+      required this.dateTime});
 
   final Size size;
   final TextEditingController dateInput2;
+  DateTime dateTime;
 
   @override
   State<customized_date_picker2> createState() =>
@@ -22,7 +23,7 @@ class customized_date_picker2 extends StatefulWidget {
 class _customized_date_picker2State extends State<customized_date_picker2> {
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
       width: widget.size.width / 2.4,
       height: widget.size.height * 0.067,
       /* decoration: BoxDecoration(
@@ -33,16 +34,16 @@ class _customized_date_picker2State extends State<customized_date_picker2> {
           controller: widget.dateInput2,
           //editing controller of this TextField
           decoration: InputDecoration(
-              prefixIcon: Icon(
+              prefixIcon: const Icon(
                 Icons.calendar_today,
                 size: 20,
               ),
               labelText: widget.title,
-              labelStyle: TextStyle(fontSize: 13),
+              labelStyle: const TextStyle(fontSize: 13),
               hintText: "Hello",
               enabledBorder: OutlineInputBorder(
-                borderSide:
-                    BorderSide(width: 3, color: Colors.grey), //<-- SEE HERE
+                borderSide: const BorderSide(
+                    width: 3, color: Colors.grey), //<-- SEE HERE
                 borderRadius: BorderRadius.circular(50.0),
               )),
           readOnly: true,
@@ -66,6 +67,7 @@ class _customized_date_picker2State extends State<customized_date_picker2> {
                 () {
                   widget.dateInput2.text =
                       formattedDate2; //set output date to TextField value.
+                  widget.dateTime = pickedDate2;
                 },
               );
             } else {}

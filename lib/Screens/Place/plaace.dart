@@ -4,6 +4,7 @@ import 'package:internship2/Providers/_buildBottomBar.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:internship2/models/User_Tile/place_tile.dart';
 import 'package:internship2/Screens/Menu.dart';
+import 'package:internship2/widgets/customnavbar.dart';
 
 class place extends StatefulWidget {
   const place({Key? key}) : super(key: key);
@@ -58,7 +59,7 @@ class _placeState extends State<place> {
           onPressed: () {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => const menu()),
+              MaterialPageRoute(builder: (context) => const CustomNavBar()),
             );
           },
           icon: Icon(
@@ -133,7 +134,6 @@ class _placeState extends State<place> {
           ),
         ),
       ),
-      bottomNavigationBar: buildBottomBar(),
     );
   }
 }

@@ -575,6 +575,7 @@ class _newmemState extends State<newmem> {
                               .collection(Location)
                               .doc(Account_No)
                               .set({
+
                             'Member_Name': Member_Name,
                             'Plan': Plan,
                             'Account_No': Account_No,
@@ -592,6 +593,7 @@ class _newmemState extends State<newmem> {
                             'mode': mode,
                             'installment': 0,
                             'status': status,
+                            'deposit_field':true,
                             'payment_date': payment_date,
                           });
                           setState(() {

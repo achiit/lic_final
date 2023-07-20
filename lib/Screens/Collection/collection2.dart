@@ -21,6 +21,7 @@ class _collection2State extends State<collection2> {
   );
   String Location;
   late String Member_Name;
+  late String Phone;
   late String Plan;
   late String Account_No;
   late Timestamp date_open;
@@ -159,6 +160,7 @@ class _collection2State extends State<collection2> {
                 List<Widget> Memberlist = [];
                 for (var tile in tiles) {
                   Member_Name = tile.get('Member_Name');
+                  Phone = tile.get("Phone_No");
                   Plan = tile.get('Plan');
                   Account_No = tile.get('Account_No').toString();
                   date_open = tile.get('Date_of_Opening');
@@ -199,7 +201,6 @@ class _collection2State extends State<collection2> {
               }),
         ],
       ),
-      bottomNavigationBar: buildBottomBar(),
     );
   }
 

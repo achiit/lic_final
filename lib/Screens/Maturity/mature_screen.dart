@@ -8,6 +8,7 @@ import 'package:internship2/Screens/Menu.dart';
 import 'package:internship2/Screens/Collection/collection2.dart';
 import 'package:internship2/models/User_Tile/collection_tile.dart';
 import 'package:internship2/models/User_Tile/mature_tile.dart';
+import 'package:internship2/widgets/customnavbar.dart';
 
 class mature_screen extends StatefulWidget {
   static const id = '/mature_master1';
@@ -60,7 +61,7 @@ class _mature_screenState extends State<mature_screen> {
           onPressed: () {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => const menu()),
+              MaterialPageRoute(builder: (context) => const CustomNavBar()),
             );
           },
           icon: Icon(
@@ -76,11 +77,12 @@ class _mature_screenState extends State<mature_screen> {
         ),
       ),
       body: SingleChildScrollView(
-        child: Column(children: [
-          SizedBox(
-            height: size.height * 0.005,
-          ),
-          StreamBuilder(
+        child: Column(
+          children: [
+            SizedBox(
+              height: size.height * 0.005,
+            ),
+            StreamBuilder(
               stream: _firestone
                   .collection('new_place')
                   .orderBy('Name')
@@ -113,10 +115,11 @@ class _mature_screenState extends State<mature_screen> {
                               )),
                         ],
                       );
-              })
-        ]),
+              },
+            )
+          ],
+        ),
       ),
-      bottomNavigationBar: buildBottomBar(),
     );
   }
 }
